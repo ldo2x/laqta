@@ -1,0 +1,11 @@
+name: "فكرة"
+description: "شي تبغاه في لقطة"
+labels: ["فكرة"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: "وش الفكرة؟"
+      description: "وش تبغى تسوي، وليش يفرق معك."
+    validations:
+      required: true

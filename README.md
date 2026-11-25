@@ -1,3 +1,72 @@
+<div dir="rtl">
+
 # لقطة
 
-مسجّل لقطات الألعاب. التنزيل والصفحة: https://ldo2x.github.io/laqta/
+**مسجّل لقطات الألعاب لويندوز.** يسجّل لعبك بهدوء في الخلفية، وإذا صار شي يستاهل تضغط زر واحد ويحفظ آخر الدقائق، بصوتك وصوت أصحابك وصوت اللعبة كل واحد في مسار لحاله.
+
+مجاني وبدون إعلانات.
+
+### [⬇️ نزّل آخر إصدار](https://github.com/ldo2x/laqta/releases/latest) · [صفحة لقطة](https://ldo2x.github.io/laqta/)
+
+![الشاشة الرئيسية في لقطة](shots/home.jpg)
+
+## وش يسوي
+
+- **آخر الدقائق بزر:** تختار المدة من دقيقة لين ساعة، وتضغط <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>F8</kbd>.
+- **ثلاث مسارات صوت:** المايك، وبرامج التواصل مثل ديسكورد، وصوت اللعبة. كل واحد تتحكم فيه من ٠٪ لين ٣٠٠٪.
+- **تنقية المايك:** يشيل صوت المروحة والكيبورد ويخلي صوتك.
+- **علامات وقص:** حط علامة وقت اللعب وارجع لها، واسحب طرفي القص على التايم لاين.
+- **تعديل:** تسريع وتبطيء، قص طولي للجوال، كتابة على الفيديو، دمج مقاطع، أو احفظ الصوت بس.
+- **مشاركة:** تصدير لديسكورد تحت حد الرفع، أو نسخ الملف ولصقه في أي محادثة، أو إرسال لقناة ديسكورد.
+- **إعدادات لكل لعبة:** طول اللقطة والجودة.
+- **خفيف:** يسجّل بكرت الشاشة (إنفيديا، إي إم دي، إنتل)، وآخر الدقائق تنحفظ على الهارديسك مو في الذاكرة.
+- **التحديثات توصلك لحالها**، وما تقطع عليك تسجيل.
+
+![التايم لاين: الصورة وكل صوت في مسار](shots/editor.jpg)
+
+![التصدير: سريع أو دقيق أو لديسكورد](shots/share.jpg)
+
+![إعدادات الصوت](shots/settings.jpg)
+
+## التثبيت
+
+1. نزّل `Laqta_..._x64-setup.exe` من [آخر إصدار](https://github.com/ldo2x/laqta/releases/latest).
+2. شغّله. لو طلعت لك شاشة ويندوز الزرقاء (SmartScreen)، اضغط «معلومات إضافية» وبعدها «تشغيل على أي حال». تطلع لأن البرنامج جديد وما عليه توقيع مدفوع للحين.
+3. سجّل دخول بجوجل أو باسم مستخدم. التسجيل نفسه يشتغل حتى لو انقطع النت.
+
+**تحتاج:** ويندوز ١٠ أو ١١ (٦٤ بت)، وكرت شاشة فيه مسجّل فيديو. أغلب الكروت من آخر عشر سنين فيها.
+
+## الأزرار
+
+| الزر | وش يسوي |
+|---|---|
+| <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>F8</kbd> | احفظ آخر الدقائق |
+| <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>F9</kbd> | ابدأ أو وقّف تسجيل فيديو |
+| <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>F7</kbd> | صورة للشاشة |
+| <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>F6</kbd> | علامة |
+
+تقدر تغيّرها من الإعدادات.
+
+## الخصوصية
+
+مقاطعك تبقى في جهازك، وما ترتفع لأي مكان إلا إذا أرسلتها أنت. التفاصيل في [صفحة الخصوصية](https://ldo2x.github.io/laqta/privacy.html).
+
+## مشكلة أو اقتراح؟
+
+افتح [بلاغ جديد](https://github.com/ldo2x/laqta/issues/new/choose). وإذا تقدر، أرفق مجلد السجلات: تلقاه في الإعدادات ← «عن لقطة» ← «سجلات المحرك».
+
+---
+
+</div>
+
+## Laqta (English)
+
+A game clip recorder for Windows. It records quietly in the background; press one key and it saves the last minutes, with your mic, voice chat and game sound on separate tracks. Free, no ads.
+
+- [Download the latest release](https://github.com/ldo2x/laqta/releases/latest) · [Website](https://ldo2x.github.io/laqta/)
+- Windows 10 or 11 (64-bit) and a graphics card with a video encoder (NVIDIA, AMD or Intel).
+- SmartScreen may warn on first run because the app isn't code-signed yet: choose **More info → Run anyway**.
+- Features: a replay buffer from 1 minute to 1 hour, three audio tracks at 0–300% each, a mic noise filter, markers, a lane timeline editor (speed, vertical crop, text, merge, sound only), Discord-sized export, per-game settings, and automatic updates.
+- Problems or ideas: [open an issue](https://github.com/ldo2x/laqta/issues/new/choose).
+
+Built with [FFmpeg](https://ffmpeg.org) (LGPL) and [RNNoise](https://github.com/xiph/rnnoise) via nnnoiseless.

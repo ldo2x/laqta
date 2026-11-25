@@ -1,0 +1,32 @@
+name: "مشكلة"
+description: "شي ما اشتغل زي ما المفروض"
+labels: ["مشكلة"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: "وش صار؟"
+      description: "اكتب وش سويت، ووش كنت متوقع، ووش اللي صار."
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: "نسخة لقطة"
+      description: "تلقاها في الإعدادات ← «عن لقطة»."
+      placeholder: "0.11.0"
+  - type: input
+    id: game
+    attributes:
+      label: "اللعبة"
+      description: "إذا المشكلة مع لعبة معينة."
+  - type: input
+    id: pc
+    attributes:
+      label: "كرت الشاشة وويندوز"
+      placeholder: "RTX 3060 · Windows 11"
+  - type: textarea
+    id: logs
+    attributes:
+      label: "السجلات (اختياري)"
+      description: "من الإعدادات ← «عن لقطة» ← «سجلات المحرك». اسحب آخر ملف هنا. السجلات ما فيها كلمات مرور ولا بريد."
