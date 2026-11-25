@@ -100,6 +100,28 @@ body.home footer{border-top-color:rgba(243,239,230,.12);color:#a99d92}
 .cards .card:nth-child(3n+2){transition-delay:.08s}
 .cards .card:nth-child(3n){transition-delay:.16s}
 
+/* Laqta, Medal and NVIDIA side by side: our column is lit */
+.vs{border-radius:16px;background:rgba(28,20,34,.72);border:1px solid rgba(243,239,230,.1);overflow:hidden}
+.vs-row{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));align-items:stretch;border-top:1px solid rgba(243,239,230,.07);transition:background .25s}
+.vs-row:first-child{border-top:0}
+.vs-row:not(.vs-head):hover{background:rgba(243,239,230,.04)}
+.vs-row>span{padding:15px 18px;font-size:15px;color:#d8cdc0;display:flex;align-items:center;justify-content:center;text-align:center}
+.vs-row>span:first-child{justify-content:flex-start;text-align:start;color:#f3efe6}
+.vs-head>span{padding-block:18px 12px}
+.vs-head b{font-size:16px;color:#f3efe6;font-weight:700}
+.vs .us{background:rgba(242,193,78,.09);box-shadow:inset 1px 0 0 rgba(242,193,78,.28),inset -1px 0 0 rgba(242,193,78,.28)}
+.vs-head .us{flex-direction:column}
+.vs-head .us b{color:var(--lamp);font-size:19px}
+.note-us{font-style:normal;color:#ffe3a8;font-size:15px;transform:rotate(-5deg);display:inline-block}
+.vs .no{color:#a99d92;font-size:14px}
+.vs .dim{color:#6f655f}
+.vs i.ok,.vs i.nope{display:inline-block;width:22px;height:22px;background:center/contain no-repeat}
+.vs i.ok{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239CD39A' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5 9.5 18 20 6.5'/%3E%3C/svg%3E")}
+.vs .us i.ok{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F2C14E' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5 9.5 18 20 6.5'/%3E%3C/svg%3E")}
+.vs i.nope{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a99d92' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M7 7l10 10M17 7 7 17'/%3E%3C/svg%3E")}
+.vs-sum{margin:22px 0 6px;font-size:17px;color:#e3d9cc;max-width:46em}
+.vs-fine{margin:0;font-size:13px;color:#8e847c}
+
 @media (max-width:860px){
   body.home .hero{grid-template-columns:minmax(0,1fr);min-height:0;padding-top:10px;gap:44px}
   .cards,.board{grid-template-columns:minmax(0,1fr)}
@@ -107,6 +129,14 @@ body.home footer{border-top-color:rgba(243,239,230,.12);color:#a99d92}
   .board{gap:44px;padding:14px 10px}
   .note{font-size:18px}
   .backdrop .tint{background:linear-gradient(to bottom,rgba(20,14,26,.35),rgba(20,14,26,.55) 50%,rgba(16,11,20,.85))}
+  /* the comparison: the feature on its own line, the three answers under it */
+  .vs-row{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .vs-row>span:first-child{grid-column:1/-1;padding:14px 14px 2px;font-weight:500}
+  .vs-head>span:first-child{display:none}
+  .vs-row>span{padding:8px 8px 14px;font-size:13px}
+  .vs-head>span{padding:14px 6px 10px}
+  .vs-head b{font-size:14px}
+  .vs .no{font-size:12.5px}
 }
 @media (hover:none){.ring,.backdrop .glow{display:none}}
 @media (prefers-reduced-motion:reduce){

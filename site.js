@@ -27,6 +27,7 @@
     document.title = l === 'ar' ? 'لقطة' : 'Laqta';
     $$('[data-ar]').forEach((e) => { e.textContent = e.dataset[l]; });
     $$('[data-alt-ar]').forEach((e) => { e.alt = l === 'ar' ? e.dataset.altAr : e.dataset.altEn; });
+    $$('[data-aria-ar]').forEach((e) => e.setAttribute('aria-label', l === 'ar' ? e.dataset.ariaAr : e.dataset.ariaEn));
     $('.logo').textContent = l === 'ar' ? 'لقطة' : 'Laqta';
     btn.textContent = l === 'ar' ? 'English' : 'العربية';
     if (!still) $$('.split').forEach(splitWords);
