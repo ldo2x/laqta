@@ -4,12 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>لقطة</title>
-<meta name="description" content="لقطة: مسجّل لقطات الألعاب. زر واحد يحفظ آخر دقائق لعبك، بثلاث مسارات صوت، بدون إعلانات.">
+<meta name="description" content="لقطة: مسجّل لقطات الألعاب لويندوز. زر واحد يحفظ آخر دقائق لعبك، كل صوت في مسار، مجاني وبدون إعلانات.">
+<meta name="theme-color" content="#1a1220">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="home.css">
 </head>
-<body>
+<body class="home">
+<!-- An original golden-hour scene, blurred: the page sits in front of it like a notebook on a window sill. -->
+<div class="backdrop" aria-hidden="true">
+  <video id="bg" autoplay muted loop playsinline preload="auto" poster="media/bg-poster.jpg">
+    <source src="media/bg.mp4" type="video/mp4">
+    <source src="media/bg.webm" type="video/webm">
+  </video>
+  <div class="tint"></div>
+  <div class="glow" id="glow"></div>
+  <div class="grain"></div>
+</div>
+<div class="ring" id="ring" aria-hidden="true"></div>
+
 <div class="wrap">
   <header class="top">
     <a class="logo" href="./">لقطة</a>
@@ -18,50 +32,68 @@
 
   <main>
     <section class="hero">
-      <div>
-        <h1 data-ar="اللحظة الحلوة ما تضيع." data-en="The good moment doesn't get away.">اللحظة الحلوة ما تضيع.</h1>
-        <p class="lead" data-ar="لقطة تسجّل لعبك بهدوء في الخلفية. صار شي يستاهل؟ زر واحد ويحفظ آخر الدقائق، بصوتك وصوت أصحابك وصوت اللعبة كل واحد لحاله."
+      <div class="hero-text">
+        <h1 class="split" data-ar="اللحظة الحلوة ما تضيع." data-en="The good moment doesn't get away.">اللحظة الحلوة ما تضيع.</h1>
+        <p class="lead" data-reveal data-ar="لقطة تسجّل لعبك بهدوء في الخلفية. صار شي يستاهل؟ زر واحد ويحفظ آخر الدقائق، بصوتك وصوت أصحابك وصوت اللعبة كل واحد لحاله."
            data-en="Laqta records your game quietly in the background. Something worth keeping? One key saves the last minutes, with your voice, your friends' and the game each on its own track.">لقطة تسجّل لعبك بهدوء في الخلفية. صار شي يستاهل؟ زر واحد ويحفظ آخر الدقائق، بصوتك وصوت أصحابك وصوت اللعبة كل واحد لحاله.</p>
-        <a class="dl" href="https://github.com/ldo2x/laqta/releases/download/v0.11.2/Laqta_0.11.2_x64-setup.exe" id="dl"><span data-ar="نزّل لقطة" data-en="Download Laqta">نزّل لقطة</span> <small dir="ltr">0.11.2 · 45 MB</small></a>
-        <div class="meta" data-ar="لويندوز ١٠ و١١. مجاني، وبدون إعلانات." data-en="For Windows 10 and 11. Free, with no ads.">لويندوز ١٠ و١١. مجاني، وبدون إعلانات.</div>
+        <div class="dl-row" data-reveal>
+          <a class="dl magnet" href="https://github.com/ldo2x/laqta/releases/download/v0.11.2/Laqta_0.11.2_x64-setup.exe" id="dl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg><span data-ar="نزّل لقطة" data-en="Download Laqta">نزّل لقطة</span> <small dir="ltr">0.11.2 · 45 MB</small></a>
+          <div class="note note-dl">
+            <svg class="arrow" viewBox="0 0 120 70" aria-hidden="true"><path class="draw" d="M112 8 C 86 4, 52 14, 34 38 S 14 60, 8 58"/><path class="draw" d="M8 58 L 22 52 M8 58 L 14 44"/></svg>
+            <span class="hand" data-ar="مجاني، وبدون إعلانات" data-en="free, and no ads">مجاني، وبدون إعلانات</span>
+          </div>
+        </div>
+        <div class="meta" data-reveal data-ar="لويندوز ١٠ و١١. التحديثات توصلك لحالها." data-en="For Windows 10 and 11. Updates arrive by themselves.">لويندوز ١٠ و١١. التحديثات توصلك لحالها.</div>
       </div>
-      <div class="frame shot">
-        <img src="shots/home.jpg" width="1600" height="1000" alt="الشاشة الرئيسية في لقطة: آخر مقطع انحفظ وعلاماته، والمقاطع مرتبة حسب اللعبة" data-alt-ar="الشاشة الرئيسية في لقطة: آخر مقطع انحفظ وعلاماته، والمقاطع مرتبة حسب اللعبة" data-alt-en="Laqta's home screen: the latest clip with its markers, and clips sorted by game">
+      <figure class="polaroid tilt hero-shot" data-reveal style="--r:-3deg">
+        <span class="tape"></span>
+        <img src="shots/home.jpg" width="1600" height="1000" alt="الشاشة الرئيسية في لقطة" data-alt-ar="الشاشة الرئيسية في لقطة" data-alt-en="Laqta's home screen">
+        <figcaption class="hand" data-ar="آخر لقطة انحفظت، وعلاماتها" data-en="the last save, with its markers">آخر لقطة انحفظت، وعلاماتها</figcaption>
+      </figure>
+    </section>
+
+    <section class="block">
+      <h2 data-reveal><span class="hand kicker" data-ar="وش تسوي لقطة" data-en="what it does">وش تسوي لقطة</span></h2>
+      <div class="cards">
+        <article class="card" data-reveal><span class="num">١</span><b data-ar="آخر الدقائق بزر" data-en="The last minutes, one key">آخر الدقائق بزر</b>
+          <p data-ar="تختار المدة من دقيقة لين ساعة. اضغط Ctrl Shift F8 وانحفظت." data-en="Pick from a minute to an hour. Press Ctrl Shift F8 and it's saved.">تختار المدة من دقيقة لين ساعة. اضغط Ctrl Shift F8 وانحفظت.</p></article>
+        <article class="card" data-reveal><span class="num">٢</span><b data-ar="كل صوت في مسار" data-en="Every sound on its own track">كل صوت في مسار</b>
+          <p data-ar="صوتك، وديسكورد، وصوت اللعبة. كل واحد من ٠٪ لين ٣٠٠٪، وتنقية المايك من الإزعاج." data-en="Your mic, Discord and the game, each from 0% to 300%, with a mic noise filter.">صوتك، وديسكورد، وصوت اللعبة. كل واحد من ٠٪ لين ٣٠٠٪، وتنقية المايك من الإزعاج.</p></article>
+        <article class="card" data-reveal><span class="num">٣</span><b data-ar="علامات وقص" data-en="Markers and trims">علامات وقص</b>
+          <p data-ar="حط علامة وقت اللعب وارجع لها، واسحب طرفي القص على التايم لاين." data-en="Drop a marker mid-game and jump back to it; drag the edges of the cut.">حط علامة وقت اللعب وارجع لها، واسحب طرفي القص على التايم لاين.</p></article>
+        <article class="card" data-reveal><span class="num">٤</span><b data-ar="عدّل" data-en="Edit">عدّل</b>
+          <p data-ar="سرّع وبطّئ، قص طولي للجوال، كتابة على الفيديو، ادمج مقاطع، أو احفظ الصوت بس." data-en="Speed, a vertical cut for phones, text on the video, merge clips, or keep the sound only.">سرّع وبطّئ، قص طولي للجوال، كتابة على الفيديو، ادمج مقاطع، أو احفظ الصوت بس.</p></article>
+        <article class="card" data-reveal><span class="num">٥</span><b data-ar="شارك" data-en="Share">شارك</b>
+          <p data-ar="صدّر لديسكورد تحت حد الرفع، أو انسخ الملف والصقه في أي محادثة." data-en="Export for Discord under its limit, or copy the file and paste it in any chat.">صدّر لديسكورد تحت حد الرفع، أو انسخ الملف والصقه في أي محادثة.</p></article>
+        <article class="card" data-reveal><span class="num">٦</span><b data-ar="خفيف على جهازك" data-en="Light on your PC">خفيف على جهازك</b>
+          <p data-ar="يسجّل بكرت الشاشة، وآخر الدقائق على الهارديسك مو في الذاكرة. اللعبة تاخذ جهازك كله." data-en="It records with your graphics card, and the last minutes live on disk, not in memory.">يسجّل بكرت الشاشة، وآخر الدقائق على الهارديسك مو في الذاكرة. اللعبة تاخذ جهازك كله.</p></article>
       </div>
     </section>
 
     <section class="block">
-      <div class="three">
-        <div><b data-ar="آخر دقائق بزر" data-en="The last minutes, one key">آخر دقائق بزر</b>
-          <p data-ar="تختار المدة، من دقيقة لساعة. اضغط Ctrl Shift F8 وانحفظت." data-en="Pick how long, from a minute to an hour. Press Ctrl Shift F8 and it's saved.">تختار المدة، من دقيقة لساعة. اضغط Ctrl Shift F8 وانحفظت.</p></div>
-        <div><b data-ar="ثلاث مسارات صوت" data-en="Three sound tracks">ثلاث مسارات صوت</b>
-          <p data-ar="صوتك، وديسكورد، وصوت اللعبة. تكتم اللي تبغى بعدين." data-en="Your mic, Discord and the game. Mute whichever you like later.">صوتك، وديسكورد، وصوت اللعبة. تكتم اللي تبغى بعدين.</p></div>
-        <div><b data-ar="علامات وقص سريع" data-en="Markers and quick trims">علامات وقص سريع</b>
-          <p data-ar="حط علامة وقت اللعب وارجع لها، وقص المقطع بدون ما تستنى." data-en="Drop a marker mid-game and jump back to it; trim without waiting.">حط علامة وقت اللعب وارجع لها، وقص المقطع بدون ما تستنى.</p></div>
-        <div><b data-ar="عدّل وشارك" data-en="Edit and share">عدّل وشارك</b>
-          <p data-ar="سرّع وبطّئ، قص طولي للجوال، كتابة على الفيديو، ادمج مقاطع، وصدّر لديسكورد بالحجم المسموح." data-en="Speed up or slow down, a vertical cut for phones, text on the video, merge clips, and export for Discord under the size limit.">سرّع وبطّئ، قص طولي للجوال، كتابة على الفيديو، ادمج مقاطع، وصدّر لديسكورد بالحجم المسموح.</p></div>
-        <div><b data-ar="كل صوت بمستواه" data-en="Every sound at its own level">كل صوت بمستواه</b>
-          <p data-ar="من ٠٪ لين ٣٠٠٪ لكل مسار، وتنقية المايك من صوت المروحة والكيبورد." data-en="From 0% to 300% for each track, and a mic filter for fan and keyboard noise.">من ٠٪ لين ٣٠٠٪ لكل مسار، وتنقية المايك من صوت المروحة والكيبورد.</p></div>
-        <div><b data-ar="خفيف على جهازك" data-en="Light on your PC">خفيف على جهازك</b>
-          <p data-ar="يسجّل بكرت الشاشة، وآخر الدقائق تنحفظ على الهارديسك مو في الذاكرة. اللعبة تاخذ جهازك كله." data-en="It records with your graphics card, and the last minutes live on disk, not in memory. The game keeps your PC.">يسجّل بكرت الشاشة، وآخر الدقائق تنحفظ على الهارديسك مو في الذاكرة. اللعبة تاخذ جهازك كله.</p></div>
+      <h2 data-reveal><span class="hand kicker" data-ar="من داخل البرنامج" data-en="inside the app">من داخل البرنامج</span></h2>
+      <div class="board">
+        <figure class="polaroid tilt" data-reveal style="--r:2deg">
+          <span class="tape"></span>
+          <img src="shots/editor.jpg" width="1600" height="1000" loading="lazy" alt="التايم لاين: الصورة وكل صوت في مسار" data-alt-ar="التايم لاين: الصورة وكل صوت في مسار" data-alt-en="The timeline: the picture and each sound on its own lane">
+          <figcaption class="hand" data-ar="كل صوت في مسار، من ٠٪ لين ٣٠٠٪" data-en="every sound on its lane, 0% to 300%">كل صوت في مسار، من ٠٪ لين ٣٠٠٪</figcaption>
+        </figure>
+        <figure class="polaroid tilt" data-reveal style="--r:-2.5deg">
+          <span class="tape"></span>
+          <img src="shots/share.jpg" width="1600" height="1000" loading="lazy" alt="التصدير: سريع أو دقيق أو لديسكورد" data-alt-ar="التصدير: سريع أو دقيق أو لديسكورد" data-alt-en="Export: fast, precise, or for Discord">
+          <figcaption class="hand" data-ar="لديسكورد؟ يصغّره لين يدخل" data-en="for Discord? it fits it in">لديسكورد؟ يصغّره لين يدخل</figcaption>
+        </figure>
+        <figure class="polaroid tilt" data-reveal style="--r:1.5deg">
+          <span class="tape"></span>
+          <img src="shots/settings.jpg" width="1600" height="1000" loading="lazy" alt="إعدادات الصوت" data-alt-ar="إعدادات الصوت" data-alt-en="Sound settings">
+          <figcaption class="hand" data-ar="إعدادات واضحة، وكل لعبة لها إعداداتها" data-en="clear settings, and some per game">إعدادات واضحة، وكل لعبة لها إعداداتها</figcaption>
+        </figure>
       </div>
     </section>
 
     <section class="block">
-      <h2 data-ar="من داخل البرنامج" data-en="Inside the app">من داخل البرنامج</h2>
-      <div class="gallery">
-        <figure><img src="shots/editor.jpg" width="1600" height="1000" loading="lazy" alt="التايم لاين: الصورة وكل صوت في مسار، بمستوى من ٠٪ لين ٣٠٠٪" data-alt-ar="التايم لاين: الصورة وكل صوت في مسار، بمستوى من ٠٪ لين ٣٠٠٪" data-alt-en="The timeline: the picture and each sound on its own lane, from 0% to 300%">
-          <figcaption data-ar="الصورة وكل صوت في مسار لحاله. اسحب طرفي القص، وارفع أو نزّل أي صوت." data-en="The picture and each sound on their own lane. Drag the edges of the cut; raise or lower any sound.">الصورة وكل صوت في مسار لحاله. اسحب طرفي القص، وارفع أو نزّل أي صوت.</figcaption></figure>
-        <figure><img src="shots/share.jpg" width="1600" height="1000" loading="lazy" alt="نافذة التصدير: سريع، دقيق، أو لديسكورد" data-alt-ar="نافذة التصدير: سريع، دقيق، أو لديسكورد" data-alt-en="The export window: fast, precise, or for Discord">
-          <figcaption data-ar="صدّر سريع، أو دقيق على الفريم، أو لديسكورد تحت حد الرفع." data-en="Export fast, frame-exact, or for Discord under its upload limit.">صدّر سريع، أو دقيق على الفريم، أو لديسكورد تحت حد الرفع.</figcaption></figure>
-        <figure><img src="shots/settings.jpg" width="1600" height="1000" loading="lazy" alt="إعدادات الصوت: مستوى كل مسار وتنقية المايك" data-alt-ar="إعدادات الصوت: مستوى كل مسار وتنقية المايك" data-alt-en="Sound settings: each track's level and the mic filter">
-          <figcaption data-ar="إعدادات واضحة: مستوى كل صوت في التسجيل، وإعدادات خاصة لكل لعبة." data-en="Clear settings: each sound's recording level, and settings per game.">إعدادات واضحة: مستوى كل صوت في التسجيل، وإعدادات خاصة لكل لعبة.</figcaption></figure>
-      </div>
-    </section>
-
-    <section class="block">
-      <h2 data-ar="ويندوز حذّرك؟" data-en="Windows warned you?">ويندوز حذّرك؟</h2>
-      <div class="warnbox">
+      <h2 data-reveal><span class="hand kicker" data-ar="ويندوز حذّرك؟" data-en="windows warned you?">ويندوز حذّرك؟</span></h2>
+      <div class="warnbox" data-reveal>
         <ol class="steps">
           <li data-ar="لقطة جديدة وما عليها توقيع مدفوع للحين، فويندوز يطلع شاشة زرقاء أول مرة." data-en="Laqta is new and has no paid signature yet, so Windows shows a blue screen the first time.">لقطة جديدة وما عليها توقيع مدفوع للحين، فويندوز يطلع شاشة زرقاء أول مرة.</li>
           <li data-ar="اضغط «معلومات إضافية» (More info)." data-en="Press “More info”.">اضغط «معلومات إضافية» (More info).</li>
@@ -76,39 +108,22 @@
       </div>
     </section>
 
-    <section class="block">
-      <h2 data-ar="تحتاج" data-en="You need">تحتاج</h2>
+    <section class="block last" data-reveal>
+      <h2><span class="hand kicker" data-ar="تحتاج" data-en="you need">تحتاج</span></h2>
       <ul class="req">
         <li data-ar="ويندوز ١٠ أو ١١، ٦٤ بت" data-en="Windows 10 or 11, 64-bit">ويندوز ١٠ أو ١١، ٦٤ بت</li>
         <li data-ar="كرت شاشة فيه مسجّل فيديو (أغلب كروت إنفيديا وإي إم دي وإنتل)" data-en="A graphics card with a video encoder (most NVIDIA, AMD and Intel)">كرت شاشة فيه مسجّل فيديو (أغلب كروت إنفيديا وإي إم دي وإنتل)</li>
         <li data-ar="حساب في لقطة، أو دخول بجوجل" data-en="A Laqta account, or sign in with Google">حساب في لقطة، أو دخول بجوجل</li>
       </ul>
+      <a class="dl magnet again" href="https://github.com/ldo2x/laqta/releases/download/v0.11.2/Laqta_0.11.2_x64-setup.exe"><span data-ar="نزّل لقطة" data-en="Download Laqta">نزّل لقطة</span></a>
     </section>
   </main>
 
   <footer>
-    <span><a href="privacy.html" data-ar="الخصوصية" data-en="Privacy">الخصوصية</a> · <a href="https://github.com/ldo2x/laqta/issues" data-ar="بلّغ عن مشكلة" data-en="Report a problem">بلّغ عن مشكلة</a></span>
-    <span data-ar="صُنع باستخدام FFmpeg. التحديثات توصلك لحالها." data-en="Built with FFmpeg. Updates arrive by themselves.">صُنع باستخدام FFmpeg. التحديثات توصلك لحالها.</span>
+    <span><a href="privacy.html" data-ar="الخصوصية" data-en="Privacy">الخصوصية</a> · <a href="https://github.com/ldo2x/laqta/issues" data-ar="بلّغ عن مشكلة" data-en="Report a problem">بلّغ عن مشكلة</a> · <a href="https://github.com/ldo2x/laqta" data-ar="الصفحة في قيتهب" data-en="On GitHub">الصفحة في قيتهب</a></span>
+    <span data-ar="صُنع باستخدام FFmpeg." data-en="Built with FFmpeg.">صُنع باستخدام FFmpeg.</span>
   </footer>
 </div>
-<script>
-(() => {
-  const btn = document.getElementById('lang');
-  const set = (l) => {
-    document.documentElement.lang = l;
-    document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
-    document.title = l === 'ar' ? 'لقطة' : 'Laqta';
-    document.querySelectorAll('[data-ar]').forEach((e) => { e.textContent = e.dataset[l]; });
-    document.querySelectorAll('[data-alt-ar]').forEach((e) => { e.alt = l === 'ar' ? e.dataset.altAr : e.dataset.altEn; });
-    document.querySelector('.logo').textContent = l === 'ar' ? 'لقطة' : 'Laqta';
-    btn.textContent = l === 'ar' ? 'English' : 'العربية';
-    try { localStorage.setItem('laqta-lang', l); } catch (e) {}
-  };
-  btn.addEventListener('click', () => set(document.documentElement.lang === 'ar' ? 'en' : 'ar'));
-  let saved = null;
-  try { saved = localStorage.getItem('laqta-lang'); } catch (e) {}
-  if (saved === 'en') set('en');
-})();
-</script>
+<script src="site.js"></script>
 </body>
 </html>
