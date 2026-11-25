@@ -5,22 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>لقطة</title>
 <meta name="description" content="لقطة: مسجّل لقطات الألعاب لويندوز. زر واحد يحفظ آخر دقائق لعبك، كل صوت في مسار، مجاني وبدون إعلانات.">
-<meta name="theme-color" content="#1a1220">
+<meta name="theme-color" content="#1c1519">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="media/poster-room.jpg">
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="home.css">
 </head>
 <body class="home">
-<!-- An original golden-hour scene, blurred: the page sits in front of it like a notebook on a window sill. -->
-<div class="backdrop" aria-hidden="true">
-  <video id="bg" autoplay muted loop playsinline preload="auto" poster="media/bg-poster.jpg">
-    <source src="media/bg.mp4" type="video/mp4">
-    <source src="media/bg.webm" type="video/webm">
-  </video>
+<!-- Four original drawn scenes behind the page (blur baked in). Scrolling into
+     a section brings its scene in with a rewind-like ripple. -->
+<div class="stage" aria-hidden="true">
+  <div class="scene on" data-name="room" style="background-image:url(media/poster-room.jpg)"><video muted loop playsinline preload="auto" data-src="media/bg-room.mp4"></video></div>
+  <div class="scene" data-name="hill" style="background-image:url(media/poster-hill.jpg)"><video muted loop playsinline preload="none" data-src="media/bg-hill.mp4"></video></div>
+  <div class="scene" data-name="tracks" style="background-image:url(media/poster-tracks.jpg)"><video muted loop playsinline preload="none" data-src="media/bg-tracks.mp4"></video></div>
+  <div class="scene" data-name="night" style="background-image:url(media/poster-night.jpg)"><video muted loop playsinline preload="none" data-src="media/bg-night.mp4"></video></div>
+  <div class="ripple" id="ripple"></div>
   <div class="tint"></div>
   <div class="glow" id="glow"></div>
   <div class="grain"></div>
+  <div class="edge"></div>
 </div>
 <div class="ring" id="ring" aria-hidden="true"></div>
 
@@ -31,7 +35,31 @@
   </header>
 
   <main>
-    <section class="hero">
+    <!-- 1. The room: a string of lanterns over the photos -->
+    <section class="hero" data-scene="room">
+      <div class="lights" data-count="9" aria-hidden="true"></div>
+      <div class="collage" data-reveal>
+        <figure class="polaroid tilt p-main" style="--r:-3deg">
+          <span class="tape"></span>
+          <img decoding="async" src="shots/home.jpg" width="1120" height="700" alt="الشاشة الرئيسية في لقطة" data-alt-ar="الشاشة الرئيسية في لقطة" data-alt-en="Laqta's home screen">
+          <figcaption class="hand" data-ar="آخر لقطة انحفظت، وعلاماتها" data-en="the last save, with its markers">آخر لقطة انحفظت، وعلاماتها</figcaption>
+        </figure>
+        <figure class="polaroid tilt p-side p-a" style="--r:7deg">
+          <span class="tape"></span>
+          <img decoding="async" src="shots/scene-hill.jpg" width="520" height="293" alt="" loading="eager">
+          <figcaption class="hand" data-ar="لحظة ما تنعاد" data-en="a moment that won't come back">لحظة ما تنعاد</figcaption>
+        </figure>
+        <figure class="polaroid tilt p-side p-b" style="--r:-8deg">
+          <span class="tape"></span>
+          <img decoding="async" src="shots/crop-timeline.jpg" width="620" height="219" alt="" loading="eager">
+          <figcaption class="hand" data-ar="صوتك ٢٥٠٪" data-en="your voice at 250%">صوتك ٢٥٠٪</figcaption>
+        </figure>
+        <div class="hint hint-look" aria-hidden="true">
+          <span class="hint-dot"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="17" rx="5"/><path d="M12 3v6"/></svg></span>
+          <svg class="hint-line" viewBox="0 0 120 60"><path class="draw" d="M4 30 C 30 6, 70 54, 116 26"/></svg>
+          <span class="hand hint-label" data-ar="مرّر عليها" data-en="hover them">مرّر عليها</span>
+        </div>
+      </div>
       <div class="hero-text">
         <h1 class="split" data-ar="اللحظة الحلوة ما تضيع." data-en="The good moment doesn't get away.">اللحظة الحلوة ما تضيع.</h1>
         <p class="lead" data-reveal data-ar="لقطة تسجّل لعبك بهدوء في الخلفية. صار شي يستاهل؟ زر واحد ويحفظ آخر الدقائق، بصوتك وصوت أصحابك وصوت اللعبة كل واحد لحاله."
@@ -43,55 +71,68 @@
             <span class="hand" data-ar="مجاني، وبدون إعلانات" data-en="free, and no ads">مجاني، وبدون إعلانات</span>
           </div>
         </div>
+        <div class="hint hint-keys" data-reveal aria-hidden="true">
+          <span class="hint-dot"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg></span>
+          <svg class="hint-line" viewBox="0 0 120 40"><path class="draw" d="M4 20 C 40 4, 80 36, 116 18"/></svg>
+          <span class="hand hint-label"><span data-ar="وقت اللعب:" data-en="mid-game:">وقت اللعب:</span> <span class="keys" dir="ltr">Ctrl + Shift + F8</span></span>
+        </div>
         <div class="meta" data-reveal data-ar="لويندوز ١٠ و١١. التحديثات توصلك لحالها." data-en="For Windows 10 and 11. Updates arrive by themselves.">لويندوز ١٠ و١١. التحديثات توصلك لحالها.</div>
       </div>
-      <figure class="polaroid tilt hero-shot" data-reveal style="--r:-3deg">
-        <span class="tape"></span>
-        <img src="shots/home.jpg" width="1120" height="700" alt="الشاشة الرئيسية في لقطة" data-alt-ar="الشاشة الرئيسية في لقطة" data-alt-en="Laqta's home screen">
-        <figcaption class="hand" data-ar="آخر لقطة انحفظت، وعلاماتها" data-en="the last save, with its markers">آخر لقطة انحفظت، وعلاماتها</figcaption>
-      </figure>
     </section>
 
-    <section class="block">
+    <!-- 2. Golden hour: pages torn from a notebook -->
+    <section class="block journal" data-scene="hill">
       <h2 data-reveal><span class="hand kicker" data-ar="وش تسوي لقطة" data-en="what it does">وش تسوي لقطة</span></h2>
-      <div class="cards">
-        <article class="card" data-reveal><span class="num">١</span><b data-ar="آخر الدقائق بزر" data-en="The last minutes, one key">آخر الدقائق بزر</b>
+      <div class="pages">
+        <article class="page" data-reveal style="--r:-2deg"><span class="tape"></span><b class="hand" data-ar="آخر الدقائق بزر" data-en="The last minutes, one key">آخر الدقائق بزر</b>
           <p data-ar="تختار المدة من دقيقة لين ساعة. اضغط Ctrl Shift F8 وانحفظت." data-en="Pick from a minute to an hour. Press Ctrl Shift F8 and it's saved.">تختار المدة من دقيقة لين ساعة. اضغط Ctrl Shift F8 وانحفظت.</p></article>
-        <article class="card" data-reveal><span class="num">٢</span><b data-ar="كل صوت في مسار" data-en="Every sound on its own track">كل صوت في مسار</b>
+        <article class="page" data-reveal style="--r:1.5deg"><span class="tape"></span><b class="hand" data-ar="كل صوت في مسار" data-en="Every sound on its own track">كل صوت في مسار</b>
           <p data-ar="صوتك، وديسكورد، وصوت اللعبة. كل واحد من ٠٪ لين ٣٠٠٪، وتنقية المايك من الإزعاج." data-en="Your mic, Discord and the game, each from 0% to 300%, with a mic noise filter.">صوتك، وديسكورد، وصوت اللعبة. كل واحد من ٠٪ لين ٣٠٠٪، وتنقية المايك من الإزعاج.</p></article>
-        <article class="card" data-reveal><span class="num">٣</span><b data-ar="علامات وقص" data-en="Markers and trims">علامات وقص</b>
+        <article class="page" data-reveal style="--r:-1deg"><span class="tape"></span><b class="hand" data-ar="علامات وقص" data-en="Markers and trims">علامات وقص</b>
           <p data-ar="حط علامة وقت اللعب وارجع لها، واسحب طرفي القص على التايم لاين." data-en="Drop a marker mid-game and jump back to it; drag the edges of the cut.">حط علامة وقت اللعب وارجع لها، واسحب طرفي القص على التايم لاين.</p></article>
-        <article class="card" data-reveal><span class="num">٤</span><b data-ar="عدّل" data-en="Edit">عدّل</b>
+        <article class="page" data-reveal style="--r:2deg"><span class="tape"></span><b class="hand" data-ar="عدّل" data-en="Edit">عدّل</b>
           <p data-ar="سرّع وبطّئ، قص طولي للجوال، كتابة على الفيديو، ادمج مقاطع، أو احفظ الصوت بس." data-en="Speed, a vertical cut for phones, text on the video, merge clips, or keep the sound only.">سرّع وبطّئ، قص طولي للجوال، كتابة على الفيديو، ادمج مقاطع، أو احفظ الصوت بس.</p></article>
-        <article class="card" data-reveal><span class="num">٥</span><b data-ar="شارك" data-en="Share">شارك</b>
+        <article class="page" data-reveal style="--r:-1.5deg"><span class="tape"></span><b class="hand" data-ar="شارك" data-en="Share">شارك</b>
           <p data-ar="صدّر لديسكورد تحت حد الرفع، أو انسخ الملف والصقه في أي محادثة." data-en="Export for Discord under its limit, or copy the file and paste it in any chat.">صدّر لديسكورد تحت حد الرفع، أو انسخ الملف والصقه في أي محادثة.</p></article>
-        <article class="card" data-reveal><span class="num">٦</span><b data-ar="خفيف على جهازك" data-en="Light on your PC">خفيف على جهازك</b>
+        <article class="page" data-reveal style="--r:1deg"><span class="tape"></span><b class="hand" data-ar="خفيف على جهازك" data-en="Light on your PC">خفيف على جهازك</b>
           <p data-ar="يسجّل بكرت الشاشة، وآخر الدقائق على الهارديسك مو في الذاكرة. اللعبة تاخذ جهازك كله." data-en="It records with your graphics card, and the last minutes live on disk, not in memory.">يسجّل بكرت الشاشة، وآخر الدقائق على الهارديسك مو في الذاكرة. اللعبة تاخذ جهازك كله.</p></article>
       </div>
     </section>
 
-    <section class="block">
+    <!-- 3. Along the tracks: the photo wall -->
+    <section class="block wall" data-scene="tracks">
       <h2 data-reveal><span class="hand kicker" data-ar="من داخل البرنامج" data-en="inside the app">من داخل البرنامج</span></h2>
-      <div class="board">
-        <figure class="polaroid tilt" data-reveal style="--r:2deg">
-          <span class="tape"></span>
-          <img src="shots/editor.jpg" width="1120" height="700" loading="lazy" alt="التايم لاين: الصورة وكل صوت في مسار" data-alt-ar="التايم لاين: الصورة وكل صوت في مسار" data-alt-en="The timeline: the picture and each sound on its own lane">
-          <figcaption class="hand" data-ar="كل صوت في مسار، من ٠٪ لين ٣٠٠٪" data-en="every sound on its lane, 0% to 300%">كل صوت في مسار، من ٠٪ لين ٣٠٠٪</figcaption>
-        </figure>
-        <figure class="polaroid tilt" data-reveal style="--r:-2.5deg">
-          <span class="tape"></span>
-          <img src="shots/share.jpg" width="1120" height="700" loading="lazy" alt="التصدير: سريع أو دقيق أو لديسكورد" data-alt-ar="التصدير: سريع أو دقيق أو لديسكورد" data-alt-en="Export: fast, precise, or for Discord">
-          <figcaption class="hand" data-ar="لديسكورد؟ يصغّره لين يدخل" data-en="for Discord? it fits it in">لديسكورد؟ يصغّره لين يدخل</figcaption>
-        </figure>
-        <figure class="polaroid tilt" data-reveal style="--r:1.5deg">
-          <span class="tape"></span>
-          <img src="shots/settings.jpg" width="1120" height="700" loading="lazy" alt="إعدادات الصوت" data-alt-ar="إعدادات الصوت" data-alt-en="Sound settings">
-          <figcaption class="hand" data-ar="إعدادات واضحة، وكل لعبة لها إعداداتها" data-en="clear settings, and some per game">إعدادات واضحة، وكل لعبة لها إعداداتها</figcaption>
-        </figure>
+      <div class="lights" data-count="11" aria-hidden="true"></div>
+      <div class="photos">
+        <figure class="polaroid tilt w2" data-reveal style="--r:-2deg"><span class="tape"></span>
+          <img decoding="async" src="shots/editor.jpg" width="1120" height="700" loading="lazy" alt="التايم لاين" data-alt-ar="التايم لاين: الصورة وكل صوت في مسار" data-alt-en="The timeline: the picture and each sound on its own lane">
+          <figcaption class="hand" data-ar="كل صوت في مسار، من ٠٪ لين ٣٠٠٪" data-en="every sound on its lane, 0% to 300%">كل صوت في مسار، من ٠٪ لين ٣٠٠٪</figcaption></figure>
+        <figure class="polaroid tilt" data-reveal style="--r:3deg"><span class="tape"></span>
+          <img decoding="async" src="shots/crop-export.jpg" width="560" height="560" loading="lazy" alt="التصدير" data-alt-ar="التصدير: سريع أو دقيق أو لديسكورد" data-alt-en="Export: fast, precise, or for Discord">
+          <figcaption class="hand" data-ar="لديسكورد؟ يصغّره لين يدخل" data-en="for Discord? it fits it in">لديسكورد؟ يصغّره لين يدخل</figcaption></figure>
+        <figure class="polaroid tilt" data-reveal style="--r:-4deg"><span class="tape"></span>
+          <img decoding="async" src="shots/scene-tracks.jpg" width="520" height="293" loading="lazy" alt="">
+          <figcaption class="hand" data-ar="كل طريق له لقطة" data-en="every road has a moment">كل طريق له لقطة</figcaption></figure>
+        <figure class="polaroid tilt" data-reveal style="--r:2.5deg"><span class="tape"></span>
+          <img decoding="async" src="shots/crop-sound.jpg" width="560" height="440" loading="lazy" alt="إعدادات الصوت" data-alt-ar="إعدادات الصوت" data-alt-en="Sound settings">
+          <figcaption class="hand" data-ar="مستوى كل صوت، وتنقية المايك" data-en="each sound's level, and a mic filter">مستوى كل صوت، وتنقية المايك</figcaption></figure>
+        <figure class="polaroid tilt w2" data-reveal style="--r:1.5deg"><span class="tape"></span>
+          <img decoding="async" src="shots/share.jpg" width="1120" height="700" loading="lazy" alt="المشغّل والتصدير" data-alt-ar="المشغّل ونافذة التصدير" data-alt-en="The player and the export window">
+          <figcaption class="hand" data-ar="قص، وصدّر، وأرسل" data-en="cut, export, send">قص، وصدّر، وأرسل</figcaption></figure>
+        <figure class="polaroid tilt" data-reveal style="--r:-2.5deg"><span class="tape"></span>
+          <img decoding="async" src="shots/scene-night.jpg" width="520" height="293" loading="lazy" alt="">
+          <figcaption class="hand" data-ar="حتى آخر الليل" data-en="until late at night">حتى آخر الليل</figcaption></figure>
+        <figure class="polaroid tilt w2" data-reveal style="--r:-1deg"><span class="tape"></span>
+          <img decoding="async" src="shots/crop-clips.jpg" width="700" height="300" loading="lazy" alt="المقاطع حسب اللعبة" data-alt-ar="المقاطع مرتبة حسب اللعبة" data-alt-en="Clips sorted by game">
+          <figcaption class="hand" data-ar="كل لعبة ومقاطعها" data-en="every game and its clips">كل لعبة ومقاطعها</figcaption></figure>
+        <figure class="polaroid tilt" data-reveal style="--r:4deg"><span class="tape"></span>
+          <img decoding="async" src="shots/settings.jpg" width="1120" height="700" loading="lazy" alt="الإعدادات" data-alt-ar="الإعدادات" data-alt-en="Settings">
+          <figcaption class="hand" data-ar="إعدادات واضحة" data-en="clear settings">إعدادات واضحة</figcaption></figure>
       </div>
     </section>
 
-    <section class="block">
+    <!-- 4. Night: the comparison, the install note, the last call -->
+    <section class="block" data-scene="night">
       <h2 data-reveal><span class="hand kicker" data-ar="لقطة، ميدال، وإنفيديا" data-en="laqta, medal and nvidia">لقطة، ميدال، وإنفيديا</span></h2>
       <div class="vs" data-reveal role="table" aria-label="مقارنة لقطة وميدال وإنفيديا" data-aria-ar="مقارنة لقطة وميدال وإنفيديا" data-aria-en="Laqta, Medal and NVIDIA compared">
         <div class="vs-row vs-head" role="row">
@@ -143,37 +184,47 @@
          data-en="Based on what each company publishes, November 2026. Medal and NVIDIA are trademarks of their owners; Laqta is not affiliated with them.">حسب اللي تعلنه الشركات في نوفمبر ٢٠٢٦. ميدال وإنفيديا علامات تجارية لأصحابها، ولقطة ما لها علاقة فيهم.</p>
     </section>
 
-    <section class="block">
-      <h2 data-reveal><span class="hand kicker" data-ar="ويندوز حذّرك؟" data-en="windows warned you?">ويندوز حذّرك؟</span></h2>
-      <div class="warnbox" data-reveal>
-        <ol class="steps">
-          <li data-ar="لقطة جديدة وما عليها توقيع مدفوع للحين، فويندوز يطلع شاشة زرقاء أول مرة." data-en="Laqta is new and has no paid signature yet, so Windows shows a blue screen the first time.">لقطة جديدة وما عليها توقيع مدفوع للحين، فويندوز يطلع شاشة زرقاء أول مرة.</li>
-          <li data-ar="اضغط «معلومات إضافية» (More info)." data-en="Press “More info”.">اضغط «معلومات إضافية» (More info).</li>
-          <li data-ar="بعدها «تشغيل على أي حال» (Run anyway)، ويكمل التثبيت عادي." data-en="Then “Run anyway”, and the install carries on.">بعدها «تشغيل على أي حال» (Run anyway)، ويكمل التثبيت عادي.</li>
-        </ol>
-        <div class="ss" aria-hidden="true">
-          <h4>Windows protected your PC</h4>
-          <p>Microsoft Defender SmartScreen prevented an unrecognized app from starting.</p>
-          <span class="more">More info</span>
-          <div class="btns"><span class="run">Run anyway</span><span>Don't run</span></div>
+    <section class="block install" data-scene="night">
+      <div class="install-grid">
+        <div data-reveal>
+          <h2><span class="hand kicker" data-ar="ويندوز حذّرك؟" data-en="windows warned you?">ويندوز حذّرك؟</span></h2>
+          <ol class="steps">
+            <li data-ar="لقطة جديدة وما عليها توقيع مدفوع للحين، فويندوز يطلع شاشة زرقاء أول مرة." data-en="Laqta is new and has no paid signature yet, so Windows shows a blue screen the first time.">لقطة جديدة وما عليها توقيع مدفوع للحين، فويندوز يطلع شاشة زرقاء أول مرة.</li>
+            <li data-ar="اضغط «معلومات إضافية» (More info)." data-en="Press “More info”.">اضغط «معلومات إضافية» (More info).</li>
+            <li data-ar="بعدها «تشغيل على أي حال» (Run anyway)، ويكمل التثبيت عادي." data-en="Then “Run anyway”, and the install carries on.">بعدها «تشغيل على أي حال» (Run anyway)، ويكمل التثبيت عادي.</li>
+          </ol>
+          <h2 class="need"><span class="hand kicker" data-ar="تحتاج" data-en="you need">تحتاج</span></h2>
+          <ul class="req">
+            <li data-ar="ويندوز ١٠ أو ١١، ٦٤ بت" data-en="Windows 10 or 11, 64-bit">ويندوز ١٠ أو ١١، ٦٤ بت</li>
+            <li data-ar="كرت شاشة فيه مسجّل فيديو (أغلب كروت إنفيديا وإي إم دي وإنتل)" data-en="A graphics card with a video encoder (most NVIDIA, AMD and Intel)">كرت شاشة فيه مسجّل فيديو (أغلب كروت إنفيديا وإي إم دي وإنتل)</li>
+            <li data-ar="حساب في لقطة، أو دخول بجوجل" data-en="A Laqta account, or sign in with Google">حساب في لقطة، أو دخول بجوجل</li>
+          </ul>
+        </div>
+        <div class="ss-wrap" data-reveal>
+          <div class="ss" aria-hidden="true">
+            <h4>Windows protected your PC</h4>
+            <p>Microsoft Defender SmartScreen prevented an unrecognized app from starting.</p>
+            <span class="more">More info</span>
+            <div class="btns"><span class="run">Run anyway</span><span>Don't run</span></div>
+          </div>
+          <div class="hint hint-ss" aria-hidden="true">
+            <span class="hint-dot"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-6 1.5L10 20z"/></svg></span>
+            <svg class="hint-line" viewBox="0 0 120 40"><path class="draw" d="M4 20 C 40 4, 80 36, 116 18"/></svg>
+            <span class="hand hint-label" data-ar="هنا، بعدين هنا" data-en="here, then here">هنا، بعدين هنا</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="block last" data-reveal>
-      <h2><span class="hand kicker" data-ar="تحتاج" data-en="you need">تحتاج</span></h2>
-      <ul class="req">
-        <li data-ar="ويندوز ١٠ أو ١١، ٦٤ بت" data-en="Windows 10 or 11, 64-bit">ويندوز ١٠ أو ١١، ٦٤ بت</li>
-        <li data-ar="كرت شاشة فيه مسجّل فيديو (أغلب كروت إنفيديا وإي إم دي وإنتل)" data-en="A graphics card with a video encoder (most NVIDIA, AMD and Intel)">كرت شاشة فيه مسجّل فيديو (أغلب كروت إنفيديا وإي إم دي وإنتل)</li>
-        <li data-ar="حساب في لقطة، أو دخول بجوجل" data-en="A Laqta account, or sign in with Google">حساب في لقطة، أو دخول بجوجل</li>
-      </ul>
-      <a class="dl magnet again" href="https://github.com/ldo2x/laqta/releases/download/v0.11.2/Laqta_0.11.2_x64-setup.exe"><span data-ar="نزّل لقطة" data-en="Download Laqta">نزّل لقطة</span></a>
+    <section class="final" data-scene="night" data-reveal>
+      <p class="hand final-note" data-ar="الجاية لقطتك." data-en="the next one's yours.">الجاية لقطتك.</p>
+      <a class="dl magnet big" href="https://github.com/ldo2x/laqta/releases/download/v0.11.2/Laqta_0.11.2_x64-setup.exe"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg><span data-ar="نزّل لقطة" data-en="Download Laqta">نزّل لقطة</span></a>
     </section>
   </main>
 
   <footer>
     <span><a href="privacy.html" data-ar="الخصوصية" data-en="Privacy">الخصوصية</a> · <a href="https://github.com/ldo2x/laqta/issues" data-ar="بلّغ عن مشكلة" data-en="Report a problem">بلّغ عن مشكلة</a> · <a href="https://github.com/ldo2x/laqta" data-ar="الصفحة في قيتهب" data-en="On GitHub">الصفحة في قيتهب</a></span>
-    <span data-ar="صُنع باستخدام FFmpeg." data-en="Built with FFmpeg.">صُنع باستخدام FFmpeg.</span>
+    <span data-ar="صُنع باستخدام FFmpeg. المشاهد مرسومة لهالموقع." data-en="Built with FFmpeg. The scenes were drawn for this site.">صُنع باستخدام FFmpeg. المشاهد مرسومة لهالموقع.</span>
   </footer>
 </div>
 <script src="site.js"></script>

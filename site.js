@@ -1,10 +1,10 @@
-// The download page's small touches: language, words that rise in, things
-// that appear on scroll, a light and a ring that follow the pointer,
-// polaroids that tilt towards it, buttons that lean to it. All of it stays
-// still for people who ask their system for less motion.
+// The download page: language, lanterns on a string, scenes that change as
+// you scroll (a rewind-like ripple), things that appear, and a light and a
+// ring that follow the pointer. Still for people who ask for less motion.
 (() => {
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
@@ -39,32 +39,97 @@
   if (saved === 'en') setLang('en');
   else if (!still) $$('.split').forEach(splitWords);
 
-  // ---- the background video: never on reduced motion or data saver ----
-  const video = $('#bg');
-  const saveData = navigator.connection && navigator.connection.saveData;
-  if (still || saveData) { video.removeAttribute('autoplay'); video.pause(); video.preload = 'none'; }
-  else video.play().catch(() => {});
-  // Pause it while the tab is hidden.
-  document.addEventListener('visibilitychange', () => { if (!still && !saveData) document.hidden ? video.pause() : video.play().catch(() => {}); });
+  // ---- lanterns hanging from a sagging string ----
+  for (const box of $$('.lights')) {
+    const n = Number(box.dataset.count) || 8;
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', 'M0 6 Q 50 62 100 6');
+    path.setAttribute('vector-effect', 'non-scaling-stroke');
+    svg.append(path);
+    box.append(svg);
+    for (let k = 0; k < n; k++) {
+      const t = (k + 0.5) / n;
+      const y = 6 + 2 * (1 - t) * t * 56; // on the curve, in % of the box height
+      const l = document.createElement('span');
+      l.className = 'lantern';
+      l.style.left = `${t * 100}%`;
+      l.style.top = `calc(${y}% + 18px)`;
+      l.style.setProperty('--d', `${-(k * 0.7) % 5}s`);
+      l.append(document.createElement('i'));
+      box.append(l);
+    }
+  }
 
   // ---- reveal on scroll ----
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   $$('[data-reveal]').forEach((el) => (still ? el.classList.add('in') : io.observe(el)));
+
+  // ---- scenes: the section in the middle of the screen picks the background ----
+  const scenes = Object.fromEntries($$('.scene').map((s) => [s.dataset.name, s]));
+  const ripple = $('#ripple');
+  const motion = !still && !saveData;
+  let current = 'room';
+  function play(name) {
+    const v = $('video', scenes[name]);
+    if (!motion || !v) return;
+    if (!v.src) { v.src = v.dataset.src; v.load(); }
+    v.play().catch(() => {});
+  }
+  function show(name) {
+    if (name === current || !scenes[name]) return;
+    const old = scenes[current];
+    old.classList.remove('on');
+    old.classList.add('leaving');
+    const vOld = $('video', old);
+    setTimeout(() => { old.classList.remove('leaving'); if (vOld) vOld.pause(); }, 1300);
+    scenes[name].classList.add('on');
+    play(name);
+    if (!still) { ripple.classList.remove('go'); void ripple.offsetWidth; ripple.classList.add('go'); }
+    current = name;
+  }
+  const sections = $$('[data-scene]');
+  let ticking = false;
+  function pick() {
+    ticking = false;
+    const mid = innerHeight * 0.5;
+    for (const s of sections) {
+      const r = s.getBoundingClientRect();
+      if (r.top <= mid && r.bottom >= mid) { show(s.dataset.scene); return; }
+    }
+  }
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(pick); } }, { passive: true });
+  play('room');
+  // Fetch the next scene while the reader is still on the first one.
+  // (All four together are about 1.6 MB; loading them early keeps the first change smooth.)
+  if (motion) {
+    ['hill', 'tracks', 'night'].forEach((n, i) => setTimeout(() => {
+      const v = $('video', scenes[n]);
+      if (!v.src) { v.preload = 'auto'; v.src = v.dataset.src; }
+    }, 2500 + i * 1500));
+  }
+  document.addEventListener('visibilitychange', () => {
+    const v = $('video', scenes[current]);
+    if (!v || !motion) return;
+    document.hidden ? v.pause() : v.play().catch(() => {});
+  });
 
   if (still || !finePointer) return;
 
-  // ---- the pointer: a warm light behind, a ring in front ----
+  // ---- the pointer: a warm light behind, a ring in front (asleep when still) ----
   document.body.classList.add('pointer');
   const glow = $('#glow');
   const ring = $('#ring');
   let mx = innerWidth / 2, my = innerHeight / 3, gx = mx, gy = my, rx = mx, ry = my;
-  // Runs only while something still moves; asleep otherwise.
   let running = false;
   function follow() {
-    gx += (mx - gx) * 0.08; gy += (my - gy) * 0.08; // the light drifts behind
-    rx += (mx - rx) * 0.25; ry += (my - ry) * 0.25; // the ring keeps up
+    gx += (mx - gx) * 0.08; gy += (my - gy) * 0.08;
+    rx += (mx - rx) * 0.25; ry += (my - ry) * 0.25;
     glow.style.transform = `translate3d(${gx}px, ${gy}px, 0)`;
     ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
     running = Math.abs(mx - gx) + Math.abs(my - gy) > 0.5;
@@ -76,11 +141,11 @@
   }, { passive: true });
   document.addEventListener('pointerleave', () => document.body.classList.remove('pointer'));
   document.addEventListener('pointerenter', () => document.body.classList.add('pointer'));
-  const pressable = 'a, button, .polaroid';
+  const pressable = 'a, button, .polaroid, .page';
   document.addEventListener('pointerover', (e) => { if (e.target.closest(pressable)) ring.classList.add('on'); });
   document.addEventListener('pointerout', (e) => { if (e.target.closest(pressable) && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(pressable))) ring.classList.remove('on'); });
 
-  // ---- polaroids tilt towards the pointer; a glint follows it ----
+  // ---- photos tilt towards the pointer; a glint follows it ----
   for (const p of $$('.tilt')) {
     let r = null;
     p.addEventListener('pointerenter', () => { r = p.getBoundingClientRect(); });
@@ -98,15 +163,6 @@
       p.style.setProperty('--rx', '0deg');
       p.style.setProperty('--ry', '0deg');
       p.classList.remove('hover');
-    });
-  }
-
-  // ---- feature cards are lit where the pointer is ----
-  for (const c of $$('.card')) {
-    c.addEventListener('pointermove', (e) => {
-      const r = c.getBoundingClientRect();
-      c.style.setProperty('--gx', `${e.clientX - r.left}px`);
-      c.style.setProperty('--gy', `${e.clientY - r.top}px`);
     });
   }
 
