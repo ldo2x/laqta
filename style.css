@@ -1,0 +1,71 @@
+:root{
+  color-scheme:dark;
+  --ink:#121417; --haze:#2A2F36; --line:#3A3F46; --paper:#F3EFE6; --muted:#B9B4AA; --dim:#8E8A82;
+  --lamp:#F2C14E; --rec:#E5484D;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--ink);color:var(--paper);font-family:'Tajawal','Segoe UI',sans-serif;line-height:1.7}
+a{color:var(--lamp)}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.logo{font-family:'Marhey',sans-serif;font-size:30px;color:var(--lamp);text-decoration:none}
+.lang{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:8px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.lang:hover{color:var(--paper)}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:center;padding:40px 0 70px}
+.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.25;margin:0 0 18px;font-weight:700}
+.hero p.lead{font-size:18px;color:var(--muted);margin:0 0 28px;max-width:30em}
+.dl{display:inline-flex;align-items:center;gap:12px;background:var(--lamp);color:#1A1712;text-decoration:none;font-weight:700;font-size:18px;padding:14px 26px;border-radius:12px}
+.dl:hover{filter:brightness(1.06)}
+.dl small{font-weight:500;opacity:.75;font-size:14px}
+.meta{margin-top:12px;font-size:14px;color:var(--dim)}
+.hand{font-family:'Marhey',sans-serif}
+
+/* The record line, drawn: what Laqta looks like at work. */
+.frame{position:relative;aspect-ratio:16/10;border-radius:10px;background:linear-gradient(160deg,#1d2127,#15181c);border:1px solid var(--haze);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.frame .bar{position:absolute;inset-inline:18px;bottom:22px;height:4px;border-radius:4px;background:#3a3f46}
+.frame .bar i{position:absolute;inset-block:0;inset-inline-start:0;width:72%;border-radius:4px;background:var(--paper);opacity:.85}
+.frame .mk{position:absolute;bottom:16px;width:3px;height:16px;border-radius:2px;background:var(--lamp)}
+.frame .rec{position:absolute;top:16px;inset-inline-start:18px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.frame .rec i{width:8px;height:8px;border-radius:50%;background:var(--rec);box-shadow:0 0 10px var(--rec)}
+.frame .note{position:absolute;top:44%;inset-inline-start:50%;transform:translate(-50%,-50%);font-size:24px;color:var(--paper);white-space:nowrap}
+html[dir=rtl] .frame .note{transform:translate(50%,-50%)}
+
+section.block{padding:46px 0;border-top:1px solid var(--haze)}
+section.block h2{font-size:22px;margin:0 0 18px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.three b{display:block;font-size:17px;margin-bottom:6px}
+.three p{margin:0;color:var(--muted);font-size:15px}
+kbd{font-family:inherit;font-size:13px;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--paper);direction:ltr;unicode-bidi:isolate;white-space:nowrap}
+
+/* "Windows protected your PC", drawn (not a screenshot). */
+.warnbox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:center}
+.ss{direction:ltr;background:#1f5fb3;color:#fff;border-radius:6px;padding:22px 22px 16px;font-family:'Segoe UI',sans-serif;max-width:420px}
+.ss h4{margin:0 0 10px;font-weight:400;font-size:22px}
+.ss p{margin:0 0 10px;font-size:13px;opacity:.9}
+.ss .more{font-size:13px;text-decoration:underline;outline:2px dashed var(--lamp);outline-offset:3px;display:inline-block}
+.ss .btns{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.ss .btns span{border:1px solid rgba(255,255,255,.7);padding:5px 16px;font-size:13px}
+.ss .btns .run{outline:2px dashed var(--lamp);outline-offset:3px}
+ol.steps{margin:0;padding-inline-start:22px;color:var(--muted)}
+ol.steps li{margin-bottom:8px}
+ol.steps b{color:var(--paper)}
+
+ul.req{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px 28px;color:var(--muted)}
+ul.req li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--lamp);margin-inline-end:10px;vertical-align:middle}
+
+footer{border-top:1px solid var(--haze);padding:26px 0 40px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;color:var(--dim);font-size:14px}
+footer a{color:var(--muted)}
+
+/* Privacy page */
+.doc{max-width:720px;padding:20px 0 60px}
+.doc h1{font-size:30px;margin:10px 0 6px}
+.doc h2{font-size:19px;margin:30px 0 8px}
+.doc p,.doc li{color:var(--muted)}
+.doc .en{direction:ltr;text-align:left;border-top:1px solid var(--haze);margin-top:46px;padding-top:20px}
+
+@media (max-width:760px){
+  .hero,.warnbox{grid-template-columns:minmax(0,1fr)}
+  .three{grid-template-columns:minmax(0,1fr)}
+  .hero{padding-top:16px}
+}
