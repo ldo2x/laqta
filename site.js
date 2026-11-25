@@ -59,24 +59,32 @@
   const glow = $('#glow');
   const ring = $('#ring');
   let mx = innerWidth / 2, my = innerHeight / 3, gx = mx, gy = my, rx = mx, ry = my;
-  addEventListener('pointermove', (e) => { mx = e.clientX; my = e.clientY; }, { passive: true });
+  // Runs only while something still moves; asleep otherwise.
+  let running = false;
+  function follow() {
+    gx += (mx - gx) * 0.08; gy += (my - gy) * 0.08; // the light drifts behind
+    rx += (mx - rx) * 0.25; ry += (my - ry) * 0.25; // the ring keeps up
+    glow.style.transform = `translate3d(${gx}px, ${gy}px, 0)`;
+    ring.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+    running = Math.abs(mx - gx) + Math.abs(my - gy) > 0.5;
+    if (running) requestAnimationFrame(follow);
+  }
+  addEventListener('pointermove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    if (!running) { running = true; requestAnimationFrame(follow); }
+  }, { passive: true });
   document.addEventListener('pointerleave', () => document.body.classList.remove('pointer'));
   document.addEventListener('pointerenter', () => document.body.classList.add('pointer'));
-  (function follow() {
-    gx += (mx - gx) * 0.06; gy += (my - gy) * 0.06; // the light drifts behind
-    rx += (mx - rx) * 0.22; ry += (my - ry) * 0.22; // the ring keeps up
-    glow.style.transform = `translate(${gx}px, ${gy}px)`;
-    ring.style.transform = `translate(${rx}px, ${ry}px)`;
-    requestAnimationFrame(follow);
-  })();
   const pressable = 'a, button, .polaroid';
   document.addEventListener('pointerover', (e) => { if (e.target.closest(pressable)) ring.classList.add('on'); });
   document.addEventListener('pointerout', (e) => { if (e.target.closest(pressable) && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(pressable))) ring.classList.remove('on'); });
 
   // ---- polaroids tilt towards the pointer; a glint follows it ----
   for (const p of $$('.tilt')) {
+    let r = null;
+    p.addEventListener('pointerenter', () => { r = p.getBoundingClientRect(); });
     p.addEventListener('pointermove', (e) => {
-      const r = p.getBoundingClientRect();
+      r = r || p.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
       p.style.setProperty('--ry', `${(x - 0.5) * 10}deg`);
       p.style.setProperty('--rx', `${(0.5 - y) * 8}deg`);
@@ -85,6 +93,7 @@
       p.classList.add('hover');
     });
     p.addEventListener('pointerleave', () => {
+      r = null;
       p.style.setProperty('--rx', '0deg');
       p.style.setProperty('--ry', '0deg');
       p.classList.remove('hover');
