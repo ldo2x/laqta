@@ -69,4 +69,4 @@ A game clip recorder for Windows. It records quietly in the background; press on
 - Features: a replay buffer from 1 minute to 1 hour, three audio tracks at 0–300% each, a mic noise filter, markers, a lane timeline editor (speed, vertical crop, text, merge, sound only), Discord-sized export, per-game settings, and automatic updates.
 - Problems or ideas: [open an issue](https://github.com/ldo2x/laqta/issues/new/choose).
 
-Built with [FFmpeg](https://ffmpeg.org) (LGPL) and [RNNoise](https://github.com/xiph/rnnoise) via nnnoiseless.
+Built with [FFmpeg](https://ffmpeg.org) (LGPL), [RNNoise](https://github.com/xiph/rnnoise) via nnnoiseless, and [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) with its GigaSpeech keyword model (Apache-2.0) and ONNX Runtime (MIT) for «Laqta, clip that».
