@@ -19,6 +19,7 @@
 - **تنقية المايك:** يشيل صوت المروحة والكيبورد ويخلي صوتك.
 - **قطّع ورتّب:** قطّع المقطع بالمقص، احذف اللي ما تبيه والفراغ يتسكّر، ورتّب القطع بالسحب. وحط علامة وقت اللعب وارجع لها.
 - **ألبومات:** اسحب مقطع فوق مقطع ثاني ويصيرون في ألبوم واحد.
+- **علامات تلقائية:** إذا ارتفع صوتك فجأة، صرخة أو ضحكة، تنحط علامة في مكانها عشان تلقى اللحظة بسهولة.
 - **تعديل:** تسريع وتبطيء، قص طولي للجوال، كتابة على الفيديو، دمج مقاطع، أو احفظ الصوت بس.
 - **مشاركة:** تصدير لديسكورد تحت حد الرفع، أو نسخ الملف ولصقه في أي محادثة، أو إرسال لقناة ديسكورد.
 - **إعدادات لكل لعبة:** طول اللقطة والجودة.
@@ -71,7 +72,7 @@ A game clip recorder for Windows. It records quietly in the background; press on
 - [Download the latest release](https://github.com/ldo2x/laqta/releases/latest) · [Website](https://ldo2x.github.io/laqta/)
 - Windows 10 or 11 (64-bit) and a graphics card with a video encoder (NVIDIA, AMD or Intel).
 - SmartScreen may warn on first run because the app isn't code-signed yet: choose **More info → Run anyway**.
-- Features: say “Laqta, clip that” or “Laqta, shoot that” (offline), a replay buffer from 1 minute to 1 hour, three audio tracks at 0–300% each, a mic noise filter, markers, albums by drag and drop, a lane timeline editor (a cutter to split, delete and reorder pieces, speed, vertical crop, text, merge, sound only), Discord-sized export, per-game settings, and automatic updates.
+- Features: say “Laqta, clip that” or “Laqta, shoot that” (offline), a replay buffer from 1 minute to 1 hour, three audio tracks at 0–300% each, a mic noise filter, markers (and automatic ones when your voice jumps), albums by drag and drop, a lane timeline editor (a cutter to split, delete and reorder pieces, speed, vertical crop, text, merge, sound only), Discord-sized export, per-game settings, and automatic updates.
 - Problems or ideas: [open an issue](https://github.com/ldo2x/laqta/issues/new/choose).
 
 Built with [FFmpeg](https://ffmpeg.org) (LGPL), [RNNoise](https://github.com/xiph/rnnoise) via nnnoiseless, and [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) with its GigaSpeech keyword model (Apache-2.0) and ONNX Runtime (MIT) for the voice commands.
