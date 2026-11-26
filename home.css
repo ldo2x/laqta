@@ -214,3 +214,12 @@ body.lite .scene video{display:none}
 body.lite .ripple,body.lite .stage .glow,body.lite .ring{display:none}
 body.lite .dl::after{animation:none}
 body.lite .polaroid,body.lite .page{box-shadow:0 6px 14px rgba(0,0,0,.4)}
+
+/* ---- caught with laqta: frames from real clips, in straight rows of glass ---- */
+.shot-wall .frames-note{max-width:62ch;margin:0 0 18px;color:rgba(255,244,230,.75)}
+.frames{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.frames img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:2px solid rgba(255,255,255,.14);
+  box-shadow:0 10px 26px rgba(0,0,0,.45);transition:transform .25s,border-color .25s}
+.frames img:hover{transform:translateY(-3px);border-color:rgba(242,193,78,.6)}
+@media (max-width:800px){.frames{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){.frames img{transition:none}.frames img:hover{transform:none}}
