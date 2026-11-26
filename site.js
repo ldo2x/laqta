@@ -58,7 +58,7 @@
       l.className = 'lantern';
       l.style.left = `${t * 100}%`;
       l.style.top = `calc(${y}% + 18px)`;
-      l.style.setProperty('--d', `${-(k * 0.7) % 5}s`);
+      l.style.setProperty('--tilt', `${((k * 37) % 7) - 3}deg`);
       l.append(document.createElement('i'));
       box.append(l);
     }
@@ -73,11 +73,13 @@
   // ---- scenes: the section in the middle of the screen picks the background ----
   const scenes = Object.fromEntries($$('.scene').map((s) => [s.dataset.name, s]));
   const ripple = $('#ripple');
-  const motion = !still && !saveData;
+  let motion = !still && !saveData;
+  let lite = false;
   let current = 'room';
+  let scrolling = false;
   function play(name) {
     const v = $('video', scenes[name]);
-    if (!motion || !v) return;
+    if (!motion || lite || scrolling || !v) return;
     if (!v.src) { v.src = v.dataset.src; v.load(); }
     v.play().catch(() => {});
   }
@@ -90,8 +92,32 @@
     setTimeout(() => { old.classList.remove('leaving'); if (vOld) vOld.pause(); }, 1300);
     scenes[name].classList.add('on');
     play(name);
-    if (!still) { ripple.classList.remove('go'); void ripple.offsetWidth; ripple.classList.add('go'); }
+    if (!still && !lite) { ripple.classList.remove('go'); void ripple.offsetWidth; ripple.classList.add('go'); }
     current = name;
+  }
+  // While the page scrolls the video holds still: scrolling stays smooth, and
+  // it plays on a moment after the reader stops.
+  let resume = 0;
+  addEventListener('scroll', () => {
+    if (!scrolling) { scrolling = true; const v = $('video', scenes[current]); if (v) v.pause(); }
+    clearTimeout(resume);
+    resume = setTimeout(() => { scrolling = false; play(current); }, 220);
+  }, { passive: true });
+  // Light mode: if the first seconds draw slowly (an old or busy PC, no
+  // graphics acceleration), keep the still pictures and drop the heavy parts.
+  if (motion) {
+    let frames = 0, slow = 0, last = performance.now();
+    const t0 = last;
+    (function probe(now) {
+      if (now - last > 34) slow++;
+      frames++; last = now;
+      if (now - t0 < 2500) return requestAnimationFrame(probe);
+      if (slow > frames * 0.25) {
+        lite = true; motion = false;
+        document.body.classList.add('lite');
+        $$('.scene video').forEach((v) => { v.pause(); v.removeAttribute('src'); v.load(); });
+      }
+    })(t0);
   }
   const sections = $$('[data-scene]');
   let ticking = false;
@@ -110,7 +136,7 @@
   if (motion) {
     ['hill', 'tracks', 'night'].forEach((n, i) => setTimeout(() => {
       const v = $('video', scenes[n]);
-      if (!v.src) { v.preload = 'auto'; v.src = v.dataset.src; }
+      if (!lite && !v.src) { v.preload = 'auto'; v.src = v.dataset.src; }
     }, 2500 + i * 1500));
   }
   document.addEventListener('visibilitychange', () => {
